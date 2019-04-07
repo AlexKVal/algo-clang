@@ -1,12 +1,5 @@
 #include <stdlib.h>
-#include <stdio.h>
-
-void print_array(int arr[], size_t size) {
-  for (size_t i = 0; i < size; i++) {
-    printf("%d ", arr[i]);
-  }
-  printf("\n");
-}
+#include "util.h"
 
 void merge(int arr[], size_t l, size_t m, size_t r) {
   size_t i, j, k, n1, n2;
@@ -69,19 +62,17 @@ void merge_sort(int arr[], size_t l, size_t r) {
   merge(arr, l, m, r);
 }
 
+// cc merge-sort.c util.c && ./a.out
 int main(int argc, const char *const argv[argc+1]) {
 
   int arr[] = {5, 2, 4, 7, 1, 3, 2, 6};
   size_t arr_size = sizeof(arr) / sizeof(arr[0]);
 
-  printf("Before:\t");
-  print_array(arr, arr_size);
+  print_array_before(arr, arr_size);
 
-  // sort
   merge_sort(arr, 0, arr_size - 1);
 
-  printf("After:\t");
-  print_array(arr, arr_size);
+  print_array_after(arr, arr_size);
 
   return EXIT_SUCCESS;
 }
