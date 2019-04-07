@@ -29,6 +29,9 @@ int main(int argc, const char *const argv[argc+1]) {
 
   print_array_before(arr, arr_size);
 
+  // complexity O(n^2) b/c of two nested loops
+  // space complexity O(1)
+  // useful when the memory is restricted
   selection_sort(arr, arr_size);
 
   print_array_after(arr, arr_size);

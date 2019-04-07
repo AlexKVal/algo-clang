@@ -70,6 +70,8 @@ int main(int argc, const char *const argv[argc+1]) {
 
   print_array_before(arr, arr_size);
 
+  // complexity O(nLogn) b/c it is recursive
+  // space complexity O(n)
   merge_sort(arr, 0, arr_size - 1);
 
   print_array_after(arr, arr_size);

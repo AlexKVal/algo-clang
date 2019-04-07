@@ -23,6 +23,10 @@ int main(int argc, const char *const argv[argc+1]) {
 
   print_array_before(data_arr, data_arr_size);
 
+  // complexity O(n^2) b/c of two nested loops
+  // space complexity O(1)
+  // useful when the memory is restricted
+  // also when the array is mostly pre-sorted (in the right direction)
   insert_sort(data_arr, data_arr_size);
 
   print_array_after(data_arr, data_arr_size);
