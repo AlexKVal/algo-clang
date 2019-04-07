@@ -3,18 +3,21 @@
 #include "util.h"
 
 void selection_sort(int arr[], size_t arr_size) {
-  int sorted_arr[arr_size];
-  size_t sorted_idx = 0;
+  // copy the unsorted array into a subarray and work from there
+  int unsorted_arr[arr_size];
+  memcpy(unsorted_arr, arr, arr_size * sizeof(int));
+
+  size_t sorted_idx = 0; // the sorted result will be built from left to right
 
   int unsorted_size = arr_size;
 
   while (unsorted_size > 0) {
     // find the minimum in the unsorted starting from the first element
-    int min = arr[0];
+    int min = unsorted_arr[0];
     size_t idx_min = 0;
     for (size_t i = 0; i < unsorted_size; i++) {
-      if (arr[i] < min) {
-        min = arr[i];
+      if (unsorted_arr[i] < min) {
+        min = unsorted_arr[i];
         idx_min = i;
       }
     }
@@ -22,15 +25,12 @@ void selection_sort(int arr[], size_t arr_size) {
     // remove the min value and shift left the rest of the unsorted array elements
     unsorted_size--;
     for (size_t j = idx_min; j < unsorted_size; j++) {
-      arr[j] = arr[j + 1];
+      unsorted_arr[j] = unsorted_arr[j + 1];
     }
 
-    sorted_arr[sorted_idx] = min;
+    arr[sorted_idx] = min;
     sorted_idx++;
   }
-
-  // copy the result back
-  memcpy(arr, sorted_arr, arr_size * sizeof(int));
 }
 
 // cc selection-sort.c util.c && ./a.out
