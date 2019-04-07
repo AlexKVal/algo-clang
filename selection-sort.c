@@ -2,20 +2,22 @@
 #include <string.h>
 #include "util.h"
 
+void swap(int *left, int *right) {
+  int tmp = *left;
+  *left = *right;
+  *right = tmp;
+}
+
 void selection_sort(int arr[], size_t arr_size) {
   for (size_t start_idx = 0; start_idx < arr_size; start_idx++) {
     // find the min among the rest of unsorted elements
-    int min = arr[start_idx];
     size_t idx_min = start_idx;
     for (size_t i = start_idx; i < arr_size; i++) {
-      if (arr[i] < min) {
-        min = arr[i];
+      if (arr[i] < arr[idx_min]) {
         idx_min = i;
       }
     }
-    // swap the non-minimum value into the unsorted part
-    arr[idx_min] = arr[start_idx];
-    arr[start_idx] = min;
+    swap(&arr[idx_min], &arr[start_idx]);
   }
 }
 
