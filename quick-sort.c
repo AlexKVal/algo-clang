@@ -18,7 +18,7 @@ void quick_sort(int arr[], size_t arr_size) {
 
   do {
     was_swap = false;
-    for (size_t i = 0; i < pivot_idx; i++) {
+    for (size_t i = 0; i < pivot_idx && !was_swap; i++) {
       if (arr[i] > arr[pivot_idx]) {
         if ((pivot_idx - 1) == i) {
           swap(&arr[pivot_idx - 1], &arr[pivot_idx]);
@@ -31,7 +31,6 @@ void quick_sort(int arr[], size_t arr_size) {
         was_swap = true;
         pivot_idx--;
       }
-      if (was_swap) break;
     }
   } while(was_swap && 0 < pivot_idx);
 
