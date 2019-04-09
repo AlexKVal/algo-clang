@@ -11,7 +11,15 @@ void swap(int *left, int *right) {
 }
 
 size_t partition_hoare(int arr[], size_t lo, size_t hi) {
-  int pivot = arr[(lo + hi) / 2];
+  // int pivot = arr[(lo + hi) / 2]; naïve version. it's unsafe for large indices
+
+  // median-of-three as pivot value
+  size_t mid = lo + (hi - lo) / 2; // safe for large indices
+  if (arr[mid] < arr[lo]) swap(&arr[lo], &arr[mid]);
+  if (arr[hi] < arr[lo])  swap(&arr[lo], &arr[hi]);
+  if (arr[mid] < arr[hi]) swap(&arr[mid], &arr[hi]);
+  int pivot = arr[hi];
+
   size_t i = lo - 1;
   size_t j = hi + 1;
   while (true) {
@@ -157,6 +165,8 @@ int main(int argc, const char *const argv[argc + 1]) {
   size_t arr_size = sizeof(arr) / sizeof(int);
 
   print_array_before(arr, arr_size);
+
+  // https://en.wikipedia.org/wiki/Quicksort
 
   // quick_sort(arr, arr_size);
   // quick_sort_verbose(arr, arr_size);
