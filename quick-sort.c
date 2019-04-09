@@ -10,6 +10,33 @@ void swap(int *left, int *right) {
   *right = tmp;
 }
 
+size_t partition_hoare(int arr[], size_t lo, size_t hi) {
+  int pivot = arr[(lo + hi) / 2];
+  size_t i = lo - 1;
+  size_t j = hi + 1;
+  while (true) {
+    do {
+      i++;
+    } while(arr[i] < pivot);
+
+    do {
+      j--;
+    } while(arr[j] > pivot);
+
+    if (i >= j) return j;
+
+    swap(&arr[i], &arr[j]);
+  }
+}
+void quick_sort_hoare(int arr[], size_t lo, size_t hi) {
+  if (lo < hi) {
+    size_t p = partition_hoare(arr, lo, hi);
+    quick_sort_hoare(arr, lo, p);
+    quick_sort_hoare(arr, p + 1, hi);
+  }
+}
+
+
 size_t partition_lomuto(int arr[], size_t lo, size_t hi) {
   int pivot = arr[hi];
   size_t i = lo;
@@ -133,7 +160,8 @@ int main(int argc, const char *const argv[argc + 1]) {
 
   // quick_sort(arr, arr_size);
   // quick_sort_verbose(arr, arr_size);
-  quick_sort_lomuto(arr, 0, arr_size - 1);
+  // quick_sort_lomuto(arr, 0, arr_size - 1);
+  quick_sort_hoare(arr, 0, arr_size - 1);
 
   print_array_after(arr, arr_size);
 
