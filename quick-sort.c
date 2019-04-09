@@ -4,6 +4,32 @@
 
 typedef enum { false, true } bool;
 
+void swap(int *left, int *right) {
+  int tmp = *left;
+  *left = *right;
+  *right = tmp;
+}
+
+size_t partition_lomuto(int arr[], size_t lo, size_t hi) {
+  int pivot = arr[hi];
+  size_t i = lo;
+  for (size_t j = lo; j < hi; j++) {
+    if (arr[j] < pivot) {
+      swap(&arr[i], &arr[j]);
+      i++;
+    }
+  }
+  swap(&arr[i], &arr[hi]);
+  return i;
+}
+void quick_sort_lomuto(int arr[], size_t lo, size_t hi) {
+  if (lo < hi) {
+    size_t p = partition_lomuto(arr, lo, hi);
+    quick_sort_lomuto(arr, lo, p - 1);
+    quick_sort_lomuto(arr, p + 1, hi);
+  }
+}
+
 void quick_sort(int arr[], size_t arr_size) {
   if (arr_size < 2) return;
 
@@ -106,7 +132,8 @@ int main(int argc, const char *const argv[argc + 1]) {
   print_array_before(arr, arr_size);
 
   // quick_sort(arr, arr_size);
-  quick_sort_verbose(arr, arr_size);
+  // quick_sort_verbose(arr, arr_size);
+  quick_sort_lomuto(arr, 0, arr_size - 1);
 
   print_array_after(arr, arr_size);
 
