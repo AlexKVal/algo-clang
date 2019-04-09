@@ -1,7 +1,6 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include "util.h"
-
-#include <stdio.h> // DEBUG
 
 typedef enum { false, true } bool;
 
@@ -12,13 +11,45 @@ void swap(int *left, int *right) {
 }
 
 void quick_sort(int arr[], size_t arr_size) {
+  if (arr_size < 2) return;
+
+  bool was_swap;
+  size_t pivot_idx = arr_size - 1;
+
+  do {
+    was_swap = false;
+    for (size_t i = 0; i < pivot_idx; i++) {
+      if (arr[i] > arr[pivot_idx]) {
+        if ((pivot_idx - 1) == i) {
+          swap(&arr[pivot_idx - 1], &arr[pivot_idx]);
+        } else {
+          int tmp = arr[i];
+          arr[i] = arr[pivot_idx - 1];
+          arr[pivot_idx - 1] = arr[pivot_idx];
+          arr[pivot_idx] = tmp;
+        }
+        was_swap = true;
+        pivot_idx--;
+      }
+      if (was_swap) break;
+    }
+  } while(was_swap && 0 < pivot_idx);
+
+  if (pivot_idx > 1)
+    quick_sort(&arr[0], pivot_idx);
+
+  if ((pivot_idx + 1) < arr_size - 1)
+    quick_sort(&arr[pivot_idx + 1], arr_size - 1 - pivot_idx);
+}
+
+void quick_sort_verbose(int arr[], size_t arr_size) {
   printf("== quick_sort ==\n");
   if (arr_size < 2) return;
 
   size_t last_idx = arr_size - 1;
 
   bool was_swap;
-  size_t pivot_idx = last_idx; // last element as pivot version
+  size_t pivot_idx = last_idx; // "last element as pivot" version
 
   do {
     was_swap = false;
@@ -83,6 +114,7 @@ int main(int argc, const char *const argv[argc + 1]) {
   print_array_before(arr, arr_size);
 
   quick_sort(arr, arr_size);
+  // quick_sort_verbose(arr, arr_size);
 
   print_array_after(arr, arr_size);
 
