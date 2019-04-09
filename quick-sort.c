@@ -21,14 +21,14 @@ void quick_sort(int arr[], size_t arr_size) {
     for (size_t i = 0; i < pivot_idx && !was_swap; i++) {
       if (arr[pivot_idx] >= arr[i]) continue;
 
+      int tmp = arr[i];
       if ((pivot_idx - 1) == i) {
-        swap(&arr[pivot_idx - 1], &arr[pivot_idx]);
+        arr[i] = arr[pivot_idx];
       } else {
-        int tmp = arr[i];
         arr[i] = arr[pivot_idx - 1];
         arr[pivot_idx - 1] = arr[pivot_idx];
-        arr[pivot_idx] = tmp;
       }
+      arr[pivot_idx] = tmp;
 
       was_swap = true;
       pivot_idx--;
