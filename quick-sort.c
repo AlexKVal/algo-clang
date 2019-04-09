@@ -11,19 +11,21 @@ void swap(int *left, int *right) {
   *right = tmp;
 }
 
-size_t partition(int arr[], size_t first_idx, size_t last_idx) {
-  size_t pivot_idx = last_idx; // last element as pivot version
+void quick_sort(int arr[], size_t arr_size) {
+  printf("== quick_sort ==\n");
+  if (arr_size < 2) return;
+
+  size_t last_idx = arr_size - 1;
 
   bool was_swap;
+  size_t pivot_idx = last_idx; // last element as pivot version
 
   do {
     was_swap = false;
     puts("> loop begin");
+    print_array(arr, arr_size);
 
-    size_t sub_arr_size = (last_idx - first_idx + 1);
-    print_array(&arr[first_idx], sub_arr_size);
-
-    for (size_t i = first_idx; i < pivot_idx; i++) {
+    for (size_t i = 0; i < pivot_idx; i++) {
       int nxt_val = arr[i];
       int pivot_val = arr[pivot_idx];
       printf("nxt: %d[%zu], pvt: %d[%zu]\n", nxt_val, i, pivot_val, pivot_idx);
@@ -45,41 +47,31 @@ size_t partition(int arr[], size_t first_idx, size_t last_idx) {
           arr[pivot_idx] = nxt_val;
         }
         was_swap = true;
-
-        print_array(&arr[first_idx], sub_arr_size);
-
         pivot_idx = left_idx;
+
+        print_array(arr, arr_size);
       }
 
       if (was_swap) break;
     }
     printf("\n");
-  } while(was_swap && first_idx < pivot_idx);
+  } while(was_swap && 0 < pivot_idx);
 
-  printf("result: %zu > %zu < %zu\n\n", first_idx, pivot_idx, last_idx);
+  printf("result: 0 > %zu < %zu\n\n", pivot_idx, last_idx);
 
-  return pivot_idx;
-}
+  size_t sub_array_size;
 
-void quick_sort(int arr[], size_t first_idx, size_t last_idx) {
-  printf("quick_sort %zu..%zu\n", first_idx, last_idx);
-  if (first_idx >= last_idx) return;
-
-  size_t pivot_final_idx = partition(arr, first_idx, last_idx);
-
-  if (pivot_final_idx == first_idx) return;
-
-  size_t lower_part_final_idx = pivot_final_idx - 1;
-  size_t higher_part_starting_idx = pivot_final_idx + 1;
-
-  if ((lower_part_final_idx - first_idx) > 1) {
+  if (pivot_idx > 1) { // 0 1 [2]..
     printf("lower part\n");
-    quick_sort(arr, first_idx, lower_part_final_idx);
+    sub_array_size = pivot_idx;
+    quick_sort(&arr[0], sub_array_size);
   }
 
-  if (higher_part_starting_idx != last_idx) {
+  size_t high_first_idx = pivot_idx + 1;
+  if (high_first_idx < last_idx) { // 0..[3] 4 5
     printf("higher part\n");
-    quick_sort(arr, higher_part_starting_idx, last_idx);
+    sub_array_size = last_idx - pivot_idx;
+    quick_sort(&arr[high_first_idx], sub_array_size);
   }
 }
 
@@ -90,7 +82,7 @@ int main(int argc, const char *const argv[argc + 1]) {
 
   print_array_before(arr, arr_size);
 
-  quick_sort(arr, 0, arr_size - 1);
+  quick_sort(arr, arr_size);
 
   print_array_after(arr, arr_size);
 
