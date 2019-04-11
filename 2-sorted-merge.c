@@ -3,22 +3,16 @@
 
 // A + B => K sorted
 void merge_2(int A[], size_t A_size, int B[], size_t B_size, int K[]) {
-  size_t i, j, k;
+  size_t i = 0, j = 0, k = 0;
 
-  for (i = j = k = 0; i < A_size && j < B_size; k++) {
-    if (A[i] <= B[j]) {
-      K[k] = A[i];
-      i++;
-    } else {
-      K[k] = B[j];
-      j++;
-    }
-  }
+  while (i < A_size && j < B_size)
+    if (A[i] <= B[j])
+      K[k++] = A[i++];
+    else
+      K[k++] = B[j++];
 
-  for (; i < A_size; i++, k++)
-    K[k] = A[i];
-  for (; j < B_size; j++, k++)
-    K[k] = B[j];
+  while (i < A_size) K[k++] = A[i++];
+  while (j < B_size) K[k++] = B[j++];
 }
 
 // cc 2-sorted-merge.c util.c && ./a.out
