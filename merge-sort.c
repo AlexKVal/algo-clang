@@ -95,7 +95,7 @@ void top_down_split_merge(int arr_from[], size_t bgn, size_t end, int arr_to[]) 
 }
 void top_down_merge_sort(int arr[], size_t arr_size) {
   int B[arr_size];
-  memcpy(B, arr, arr_size);
+  memcpy(B, arr, arr_size * sizeof(int));
   top_down_split_merge(B, 0, arr_size, arr);
 }
 
