@@ -5,14 +5,11 @@
 void merge_2(int A[], size_t A_size, int B[], size_t B_size, int K[]) {
   size_t i = 0, j = 0, k = 0;
 
-  while (i < A_size && j < B_size)
-    if (A[i] <= B[j])
+  while (k < A_size + B_size)
+    if (i < A_size && (j >= B_size || A[i] <= B[j]))
       K[k++] = A[i++];
     else
       K[k++] = B[j++];
-
-  while (i < A_size) K[k++] = A[i++];
-  while (j < B_size) K[k++] = B[j++];
 }
 
 // cc 2-sorted-merge.c util.c && ./a.out
