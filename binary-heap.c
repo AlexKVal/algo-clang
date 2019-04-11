@@ -9,54 +9,62 @@ void swap(int *x, int *y) {
   *x = tmp;
 }
 
-void max_heapify(int arr[], size_t i, size_t heap_size) {
-  size_t left  = 2 * i + 1;
-  size_t right = 2 * i + 2;
-  size_t largest = i;
-
-  printf(">>> l:%zu r:%zu i:%zu lg:%zu\n", left, right, i, largest);
-  printf(">>> ");
-  print_array(arr, heap_size);
-
-  if (left < heap_size && arr[left] > arr[largest]){
-    printf("lg = l\n");
-    largest = left;
-  }
-
-  if (right < heap_size && arr[right] > arr[largest]) {
-    printf("lg = r\n");
-    largest = right;
-  }
-
-  if (largest != i) {
-    printf("lg != i\n");
-    swap(&arr[i], &arr[largest]);
-    max_heapify(arr, i, heap_size);
-  }
-  printf("___ l:%zu r:%zu i: %zu lg:%zu\n", left, right, i, largest);
-  printf("___ ");
-  print_array(arr, heap_size);
+int parent(int child_idx) {
+  return (child_idx - 1) / 2;
 }
-void build_max_heap(int arr[], size_t arr_size) {
-  size_t i = arr_size / 2;
-  do {
-    i--;
-    max_heapify(arr, i, arr_size);
-  } while(i != 0);
+int left(int parent_idx) {
+  return 2 * parent_idx + 1;
+}
+int right(int parent_idx) {
+  return 2 * parent_idx + 2;
+}
+
+void sift_down(int arr[], int start, int end) {
+  int root = start;
+
+  while (left(root) <= end) { // while the root has at least one child
+    int swap_el = root;
+
+    int left_child = left(root);
+    if (arr[swap_el] < arr[left_child])
+      swap_el = left_child;
+
+    // if there is a right child and that child is greater
+    int right_child = right(root);
+    if (right_child <= end && arr[swap_el] < arr[right_child])
+      swap_el = right_child;
+
+    if (swap_el == root) {
+      return; // the root holds the largest element, so we are done
+    } else {
+      swap(&arr[root], &arr[swap_el]);
+      root = swap_el; // repeat to continue sifting down the child now
+    }
+  }
+}
+
+void heapify(int arr[], int arr_size) {
+  int last = arr_size - 1;
+  int start = parent(last);
+
+  while (start >= 0) {
+    // sift down the 'start' node to the proper place in the heap
+    sift_down(arr, start, last);
+    start--;
+  }
 }
 
 // cc binary-heap.c util.c && ./a.out
 int main(int argc, const char *const argv[argc + 1]) {
   int arr[] = {4, 3, 6, 8, 2, 1, 0, 8, 8, 5, 7, 3};
-  size_t arr_size = sizeof(arr) / sizeof(int);
+  // notice: use signed int for count to simplify while loop
+  int count = sizeof(arr) / sizeof(int);
 
-  print_array_before(arr, arr_size);
+  print_array_before(arr, count);
 
-  build_max_heap(arr, arr_size);
-  build_max_heap(arr, arr_size);
-  build_max_heap(arr, arr_size);
+  heapify(arr, count);
 
-  print_array_after(arr, arr_size);
+  print_array_after(arr, count);
 
   return EXIT_SUCCESS;
 }
