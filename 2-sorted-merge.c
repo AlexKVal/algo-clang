@@ -3,11 +3,9 @@
 
 // A + B => K sorted
 void merge_2(int A[], size_t A_size, int B[], size_t B_size, int K[]) {
-  size_t i = 0; // A index
-  size_t j = 0; // B index
-  size_t k = 0; // K index
+  size_t i, j, k;
 
-  while (i < A_size && j < B_size) {
+  for (i = j = k = 0; i < A_size && j < B_size; k++) {
     if (A[i] <= B[j]) {
       K[k] = A[i];
       i++;
@@ -15,26 +13,18 @@ void merge_2(int A[], size_t A_size, int B[], size_t B_size, int K[]) {
       K[k] = B[j];
       j++;
     }
-    k++;
   }
 
-  while (i < A_size) {
+  for (; i < A_size; i++, k++)
     K[k] = A[i];
-    i++;
-    k++;
-  }
-
-  while (j < B_size) {
+  for (; j < B_size; j++, k++)
     K[k] = B[j];
-    j++;
-    k++;
-  }
 }
 
 // cc 2-sorted-merge.c util.c && ./a.out
 int main(int argc, const char *const argv[argc+1]) {
-  int A[] = {4, 5, 6, 7, 8, 9, 21, 22};
-  int B[] = {1, 2, 3, 4, 10, 11};
+  int A[] = {2, 5, 6, 7, 8, 9};
+  int B[] = {1, 2, 3, 10};
 
   size_t A_size = sizeof(A) / sizeof(int);
   size_t B_size = sizeof(B) / sizeof(int);
