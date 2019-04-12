@@ -134,7 +134,7 @@ void sift_down_d(int arr[], int start, int last) {
   }
 }
 
-void heapify(int arr[], int count) {
+void heapify_d(int arr[], int count) {
   // the balancing process of a binary tree is based upon the idea
   // that all the sub-trees are already balanced
   // so it should start from the very last node of a binary heap to be sure
@@ -152,6 +152,36 @@ void heapify(int arr[], int count) {
   }
 }
 
+
+// debug free versions
+// This sift_down based heap building is known as Floyd's variant
+// it has O(n) complexity
+// while sift_up variant has O(n log n) complexity
+void sift_down(int arr[], int root, int last) {
+  for(;;) {
+    int swap_el = root;
+
+    int left = left_child(root);
+    if (left <= last && arr[left] > arr[root])
+      swap_el = left;
+
+    // int right = right_child(root);
+    int right = left + 1; // optimise a bit calculation
+    if (right <= last && arr[right] > arr[swap_el])
+      swap_el = right;
+
+    if (swap_el == root) return;
+
+    swap(&arr[swap_el], &arr[root]);
+    root = swap_el;
+  }
+}
+void heapify(int arr[], int count) {
+  for (int start = parent(count - 1); start >= 0; start--) {
+    sift_down(arr, start, count - 1);
+  }
+}
+
 // cc binary-heap.c util.c && ./a.out
 int main(int argc, const char *const argv[argc + 1]) {
   // int arr[] = {4,5,9,8,7};
@@ -161,6 +191,7 @@ int main(int argc, const char *const argv[argc + 1]) {
 
   print_array_before(arr, count);
 
+  // heapify_d(arr, count);
   heapify(arr, count);
 
   print_array_after(arr, count);
