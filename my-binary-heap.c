@@ -79,6 +79,32 @@ void sift_down_r_2swaps(int arr[], int start, int last) {
   }
 }
 
+// recursive 1 swap version
+void sift_down_r_1swap(int arr[], int start, int last) {
+  print_array(arr, last + 1);
+  printf("sift_down_r_1swap %d[%d] %d\n", arr[start], start, last);
+
+  int swap_el = start;
+  // if the left child exists, compare it with its parent
+  int left = left_child(start);
+  if (left <= last && arr[left] > arr[start]) {
+    printf("will swap: left(%d) > parent(%d)\n", arr[left], arr[start]);
+    swap_el = left;
+  }
+
+  // if the right child exists, compare it with the value that is going to be swapped
+  int right = right_child(start);
+  if (right <= last && arr[right] > arr[swap_el]) {
+    printf("will swap: right(%d) > swap_el(%d)\n", arr[right], arr[swap_el]);
+    swap_el = right;
+  }
+
+  if (swap_el != start) {
+    swap(&arr[swap_el], &arr[start]);
+    sift_down_r_1swap(arr, swap_el, last); // re-balance the swapped child's sub-heap
+  }
+}
+
 void heapify(int arr[], int count) {
   // the balancing process of a binary tree is based upon the idea
   // that all the sub-trees are already balanced
@@ -90,7 +116,8 @@ void heapify(int arr[], int count) {
   while (start >= 0) {
     printf(">>> next node:%d >= 0\n", start);
     // sift_down_m(arr, start, last);
-    sift_down_r_2swaps(arr, start, last);
+    // sift_down_r_2swaps(arr, start, last);
+    sift_down_r_1swap(arr, start, last);
     start--;
   }
 }
