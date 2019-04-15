@@ -46,29 +46,30 @@ void heapify(int arr[], size_t arr_size) {
 }
 
 void heap_sort(int arr[], size_t arr_size) {
-  int A2[arr_size];
-  memcpy(A2, arr, arr_size * sizeof(int));
-
   int heap_len = arr_size;
+
   for (size_t i = 0; i < arr_size; i++) {
-    // peek top element
-    int top_el = A2[0];
+    // peek top element value
+    int top_el = arr[0];
 
     // delete top element
-    int last_el = A2[heap_len - 1];
-    A2[0] = last_el;
+    int last = heap_len - 1;
+    int last_val = arr[last];
+    arr[0] = last_val;
     heap_len--;
-    if (heap_len > 1) {
-      sift_down(A2, 0, heap_len - 1);
-    }
 
-    arr[i] = top_el;
+    // place top element's value to the become free space
+    arr[last] = top_el;
+
+    // rebalance heap
+    if (heap_len > 1) {
+      sift_down(arr, 0, heap_len - 1);
+    }
   }
 }
 
 // cc my-heap-sort.c util.c && ./a.out
 int main(int argc, const char *const argv[argc + 1]) {
-  // int arr[] = {4,5,9,8,7};
   int arr[] = {4, 3, 6, 8, 2, 1, 0, 8, 8, 5, 7, 3};
   size_t arr_size = sizeof(arr) / sizeof(int);
 
