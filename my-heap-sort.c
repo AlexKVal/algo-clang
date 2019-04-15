@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "util.h"
 
@@ -45,7 +46,24 @@ void heapify(int arr[], size_t arr_size) {
 }
 
 void heap_sort(int arr[], size_t arr_size) {
+  int A2[arr_size];
+  memcpy(A2, arr, arr_size * sizeof(int));
 
+  int heap_len = arr_size;
+  for (size_t i = 0; i < arr_size; i++) {
+    // peek top element
+    int top_el = A2[0];
+
+    // delete top element
+    int last_el = A2[heap_len - 1];
+    A2[0] = last_el;
+    heap_len--;
+    if (heap_len > 1) {
+      sift_down(A2, 0, heap_len - 1);
+    }
+
+    arr[i] = top_el;
+  }
 }
 
 // cc my-heap-sort.c util.c && ./a.out
